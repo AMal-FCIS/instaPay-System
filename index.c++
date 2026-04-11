@@ -6,9 +6,5 @@ int main() {
 	cout << "Welcome to instaPay System Project" << endl;
 	cout << "Testing Git Push - Amal" << endl;
 
-	cout << "zyad" << endl;
-	cout << "go" << endl;
-	cout << "زهقت" << endl;
-		cout << "c..........." << endl;
 	return 0;
 }
