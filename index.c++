@@ -14,7 +14,7 @@ struct  Date
     int Year;
 };
 
-struct Adress
+struct Address
 {
     string Country;
     string City;
@@ -52,7 +52,7 @@ struct User
     string UserName;
     string Password;
     string Email;
-    Adress Address;
+    Address Address;
     string Phone;
     Account Accounts[nAccounts];
     int accCount = 0;
@@ -174,6 +174,7 @@ int main()
         cout << " ****************** " << endl;
         cout << " Enter your choice: " << endl;
         cin >> choice;
+        cin.ignore();
         switch (choice) {
         case 1 :
             SignUp();
@@ -266,9 +267,9 @@ void SignUp() {
     cout << " ***** You are now on the Sign Up page ******" << endl;
     cout << " Enter your national ID " << endl;
     cin >> users[usercount].ID;
-
+    cin.ignore();
     while (true) {
-        cin.ignore();
+        
         cout << " Enter Username:" << endl;
         string tempUsername;
         getline(cin, tempUsername);
@@ -297,7 +298,7 @@ void SignUp() {
 
         cout << "Enter Password:" << endl;
         string tempPass;
-        cin >> tempPass;
+       getline ( cin,tempPass );
 
         if (tempPass.length() < 8) {
             cout << " password too weak ( must be at least 8 digits " << endl;
@@ -310,7 +311,7 @@ void SignUp() {
 
 
     cout << " Enter your Email " << endl;
-    cin >> users[usercount].Email;
+ getline( cin, users[usercount].Email);
 
 
     cout << " ****************** " << endl;
@@ -318,13 +319,13 @@ void SignUp() {
 
 
 
-    cout << " -----Adress information----- " << endl;
+    cout << " -----Address information----- " << endl;
     cout << " your country : " << endl;
     cin >> users[usercount].Address.Country;
     cout << " your city :" << endl;
     cin >> users[usercount].Address.City;
     cin.ignore();
-    cout << " your streat name :" << endl;
+    cout << " your street name :" << endl;
     getline(cin, users[usercount].Address.Street);
 
 
@@ -338,7 +339,8 @@ void SignUp() {
         bool phoneExists = false;
         for (int i = 0; i < usercount; i++) {
             if (users[i].Phone == tempPhone) {
-                PhoneExist = true;
+                phoneExists = true;
+                cin.ignore();
                 break;
             }
         }
@@ -355,22 +357,23 @@ void SignUp() {
     }
 
     cout << "Now add your first bank account data" << endl;
+    bool success = false;
+    while (!success) {
+        if (addNewAccount(usercount)) {
 
-    if (addNewAccount(usercount)) {
+            usercount++;
 
-        usercount++;
+            cout << " Registration completed successfully" << endl;
+            success = true;
+            UserDashboard(usercount - 1);
+        }
+        else {
+            cout << " Sorry , the registration failed . try again " << endl;
 
-        cout << " Registration completed successfully" << endl;
-        UserDashboard(usercount-1);
+
+        }
+
     }
-    else {
-        cout << " Sorry , the registration failed .  " << endl;
-        cout << " try adding an account again to complete your sign-up successfully" << endl;
-        addNewAccount(usercount);
-  
-    }
-
-    
 }
 
 void login() {
@@ -380,15 +383,14 @@ void login() {
     cout << " ******************** " << endl;
     cout << " LOGIN TO INSTAPAY " << endl;
     cout << " ****************** " << endl;
-    cin.ignore();
     cout << " Enter your Username " << endl;
     getline(cin, tempUser);
     cout << " Enter Password " << endl;
-    cin >> tempPass;
+  getline(  cin, tempPass ) ;
     for (int i = 0; i < usercount; i++) {
         if (users[i].UserName == tempUser && users[i].Password == tempPass) {
             loggedin = true;
-            currentUserindex = 1;
+            currentUserindex = i;
             break;
 
         }
@@ -417,23 +419,27 @@ bool addNewAccount(int userindex) {
     cout << " ---[link your Bank Account]--- " << endl;
     while (true) {
         cout << " Enter 16-digit card number: " << endl;
-        cin >> tempCard;
+        getline(cin, tempCard);
 
         if (tempCard.length() == 16) {
-            users[userindex].Account[current].CardNo = tempCard;
+            users[userindex].Accounts[current].CardNo = tempCard;
             break;
 
         }
-        cout << " invalid! Cardnumber must be exactly 16 digits ." << endl;
+        else {
+
+            cout << " invalid! Cardnumber must be exactly 16 digits ." << endl;
+        }
+        
     }
 
-    cin.ignore();
+    
     cout << " enter Card holder name : " << endl;
     getline(cin, users[userindex].Accounts[current].HolderName);
 
     while (true) {
         cout << " Enter3-digit CVVCode: " << endl;
-        cin >> tempCVV;
+      getline (  cin , tempCVV );
         if (tempCVV.length() == 3) {
             users[userindex].Accounts[current].CVV_Code = tempCVV;
             break;
