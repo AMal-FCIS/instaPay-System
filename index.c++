@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 #define nAccounts 3
@@ -65,20 +66,24 @@ int usercount = 0;
 
 
 
-void TransactionHistory( int userindex);
-void CheckBalance( int userindex);
-void Donation( int userindex); 
-void TransferMoney( int userindex);
+void TransactionHistory(int userindex);
+void CheckBalance(int userindex);
+void Donation(int userindex);
+void TransferMoney(int userindex);
 void SignUp();
 bool addNewAccount(int userindex);
 void UserDashboard(int userindex);
 void login();
+void login();
+void saveData();
+void loadData();
 
 
 
 
-int main() 
+int main()
 {
+    loadData();
     users[0].ID = 12345678901234;
     users[0].UserName = "Ahmed Mohamed";
     users[0].Password = "52444424vmv";
@@ -104,24 +109,24 @@ int main()
     users[0].Transactions[1].Amount = 9000.80;
     users[0].transCount = 2;
 
-   
+
     users[0].Donation_Organisation[0].From = "Ahmed Mohamed";
     users[0].Donation_Organisation[0].Name_organisation = "Magdi Yacoub Heart Foundation";
     users[0].Donation_Organisation[0].Type_Of_Donation = "Sadaka Jariya (Medical Equipment)";
     users[0].Donation_Organisation[0].TotalDonation = 1500.0;
 
-   
+
     users[0].Donation_Organisation[0].From = "Ahmed Mohamed";
     users[0].Donation_Organisation[1].Name_organisation = "Egyptian Food Bank";
     users[0].Donation_Organisation[1].Type_Of_Donation = "Feeding Programs (Zakat)";
     users[0].Donation_Organisation[1].TotalDonation = 800.0;
 
-    
+
     users[0].orgCount = 2;
 
     usercount++;
 
-    users[1].ID = 09876543211234;
+    users[1].ID = 89876543211234;
     users[1].UserName = "Norhan Atef";
     users[1].Password = "34567ggtt6";
     users[1].Email = "norhan77@gmail.com";
@@ -147,23 +152,23 @@ int main()
     users[1].transCount = 2;
 
 
-    
+
     users[1].Donation_Organisation[0].From = "Norhan Atef";
     users[1].Donation_Organisation[0].Name_organisation = "Resala Charity Organization";
     users[1].Donation_Organisation[0].Type_Of_Donation = "Kafala (Orphan Support)";
     users[1].Donation_Organisation[0].TotalDonation = 2000.0;
 
-    
+
     users[1].Donation_Organisation[1].From = "Norhan Atef";
     users[1].Donation_Organisation[1].Name_organisation = "Baheya Foundation";
     users[1].Donation_Organisation[1].Type_Of_Donation = "Early Detection Programs";
     users[1].Donation_Organisation[1].TotalDonation = 3000.0;
 
-    
+
     users[1].orgCount = 2;
 
     usercount++;
-  
+
     int choice;
     while (true) {
         cout << " instaPay system " << endl;
@@ -176,13 +181,14 @@ int main()
         cin >> choice;
         cin.ignore();
         switch (choice) {
-        case 1 :
+        case 1:
             SignUp();
             break;
         case 2:
             login();
             break;
-        case 3 :
+        case 3:
+            saveData();
             cout << " thanks for your time " << endl;
             return 0;
         default:
@@ -192,7 +198,6 @@ int main()
 
     }
 
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
 
 
@@ -204,7 +209,8 @@ int main()
 
 
 
-	return 0;
+
+    return 0;
 }
 
 
@@ -227,20 +233,20 @@ void UserDashboard(int userindex) {
         cout << " Enter your Choice " << endl;
         cin >> choice;
         switch (choice) {
-        case 1: 
+        case 1:
             TransferMoney(userindex);
             break;
-        case 2: 
+        case 2:
             Donation(userindex);
             break;
         case 3:
             CheckBalance(userindex);
             break;
-        case 4: 
+        case 4:
             TransactionHistory(userindex);
             break;
-        case 5: 
-            if (addNewAccount(int userindex)) {
+        case 5:
+            if (addNewAccount(userindex)) {
                 cout << " Account added to your Profile " << endl;
             }
             else {
@@ -269,7 +275,7 @@ void SignUp() {
     cin >> users[usercount].ID;
     cin.ignore();
     while (true) {
-        
+
         cout << " Enter Username:" << endl;
         string tempUsername;
         getline(cin, tempUsername);
@@ -298,7 +304,7 @@ void SignUp() {
 
         cout << "Enter Password:" << endl;
         string tempPass;
-       getline ( cin,tempPass );
+        getline(cin, tempPass);
 
         if (tempPass.length() < 8) {
             cout << " password too weak ( must be at least 8 digits )  " << endl;
@@ -311,7 +317,7 @@ void SignUp() {
 
 
     cout << " Enter your Email " << endl;
- getline( cin, users[usercount].Email);
+    getline(cin, users[usercount].Email);
 
 
     cout << " ****************** " << endl;
@@ -386,7 +392,7 @@ void login() {
     cout << " Enter your Username " << endl;
     getline(cin, tempUser);
     cout << " Enter Password " << endl;
-  getline(  cin, tempPass ) ;
+    getline(cin, tempPass);
     for (int i = 0; i < usercount; i++) {
         if (users[i].UserName == tempUser && users[i].Password == tempPass) {
             loggedin = true;
@@ -430,27 +436,35 @@ bool addNewAccount(int userindex) {
 
             cout << " invalid! Cardnumber must be exactly 16 digits ." << endl;
         }
-        
+
     }
 
-    
+
     cout << " enter Card holder name : " << endl;
     getline(cin, users[userindex].Accounts[current].HolderName);
 
     while (true) {
         cout << " Enter3-digit CVVCode: " << endl;
-      getline (  cin , tempCVV );
+        getline(cin, tempCVV);
         if (tempCVV.length() == 3) {
-            users[userindex].Accounts[current].CVV_Code = tempCVV;
+            users[userindex].Accounts[current].Cvv_Code = stoi(tempCVV);
             break;
 
         }
         cout << " invalid! CVV must be exactly 3 digits ." << endl;
 
     }
+<<<<<<< HEAD
     cout << " Enter expiration date (MM/YY) : " << endl; 
    getline( cin, users[userindex].Accounts[current].ExpirationDate );
      
+=======
+    cout << " Enter expiration date (MM/YY) : " << endl;
+    cin >> users[userindex].Accounts[current].ExpirationDate.Day;
+    cin >> users[userindex].Accounts[current].ExpirationDate.Month;
+    cin >> users[userindex].Accounts[current].ExpirationDate.Year;
+
+>>>>>>> 53d0cea79a5361d3b6bca1dd12584dfcd649601f
     cout << " Enter BankName : " << endl;
    getline( cin, users[userindex].Accounts[current].BankName );
     users[userindex].Accounts[current].Balance = double(rand() % 5000 + 1000);
@@ -459,3 +473,104 @@ bool addNewAccount(int userindex) {
     users[userindex].accCount++;
     return true;
 }
+void CheckBalance(int userindex)
+{
+    if (users[userindex].accCount == 0) {
+        cout << "No accounts found!" << endl;
+        return;
+    }
+
+    cout << "Your Accounts:\n";
+    for (int i = 0; i < users[userindex].accCount; i++) {
+        cout << i + 1 << ". "
+            << users[userindex].Accounts[i].BankName << endl;
+    }
+
+    int choice;
+    cout << "Choose account: ";
+    cin >> choice;
+
+    if (choice < 1 || choice > users[userindex].accCount) {
+        cout << "Invalid choice!" << endl;
+        return;
+    }
+
+    cout << "Current Balance: "
+        << users[userindex].Accounts[choice - 1].Balance
+        << " EGP" << endl;
+}
+void TransactionHistory(int userindex)
+{
+    if (users[userindex].transCount == 0) {
+        cout << "No transactions found!" << endl;
+        return;
+    }
+
+    cout << "====== Your Transactions ======\n";
+
+    for (int i = 0; i < users[userindex].transCount; i++) {
+
+        cout << "Transaction " << i + 1 << ":\n";
+
+        cout << "From: "
+            << users[userindex].Transactions[i].From << endl;
+
+        cout << "To: "
+            << users[userindex].Transactions[i].To << endl;
+
+        cout << "Amount: "
+            << users[userindex].Transactions[i].Amount
+            << " EGP" << endl;
+
+        cout << "--------------------------\n";
+    }
+}
+void saveData() {
+    ofstream file("users_data.txt");
+
+    file << usercount << endl;
+
+    for (int i = 0; i < usercount; i++) {
+        file << users[i].ID << endl;
+        file << users[i].UserName << endl;
+        file << users[i].Password << endl;
+        file << users[i].Email << endl;
+        file << users[i].Phone << endl;
+        file << users[i].accCount << endl;
+
+        for (int j = 0; j < users[i].accCount; j++) {
+            file << users[i].Accounts[j].CardNo << endl;
+            file << users[i].Accounts[j].BankName << endl;
+            file << users[i].Accounts[j].Balance << endl;
+        }
+    }
+
+    file.close();
+}
+void loadData() {
+    ifstream file("users_data.txt");
+
+    if (!file) return;
+
+    file >> usercount;
+    file.ignore();
+
+    for (int i = 0; i < usercount; i++) {
+        getline(file, users[i].ID);
+        getline(file, users[i].UserName);
+        getline(file, users[i].Password);
+        getline(file, users[i].Email);
+        getline(file, users[i].Phone);
+
+        file >> users[i].accCount;
+        file.ignore();
+
+        for (int j = 0; j < users[i].accCount; j++) {
+            getline(file, users[i].Accounts[j].CardNo);
+            getline(file, users[i].Accounts[j].BankName);
+            file >> users[i].Accounts[j].Balance;
+            file.ignore();
+        }
+
+        file.close();
+    }
