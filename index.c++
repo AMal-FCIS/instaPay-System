@@ -74,7 +74,6 @@ void SignUp();
 bool addNewAccount(int userindex);
 void UserDashboard(int userindex);
 void login();
-void login();
 void saveData();
 void loadData();
 
@@ -454,17 +453,15 @@ bool addNewAccount(int userindex) {
         cout << " invalid! CVV must be exactly 3 digits ." << endl;
 
     }
-<<<<<<< HEAD
+
     cout << " Enter expiration date (MM/YY) : " << endl; 
    getline( cin, users[userindex].Accounts[current].ExpirationDate );
      
-=======
     cout << " Enter expiration date (MM/YY) : " << endl;
     cin >> users[userindex].Accounts[current].ExpirationDate.Day;
     cin >> users[userindex].Accounts[current].ExpirationDate.Month;
     cin >> users[userindex].Accounts[current].ExpirationDate.Year;
 
->>>>>>> 53d0cea79a5361d3b6bca1dd12584dfcd649601f
     cout << " Enter BankName : " << endl;
    getline( cin, users[userindex].Accounts[current].BankName );
     users[userindex].Accounts[current].Balance = double(rand() % 5000 + 1000);
@@ -574,3 +571,4 @@ void loadData() {
 
         file.close();
     }
+}
