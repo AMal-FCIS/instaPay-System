@@ -493,6 +493,32 @@ void CheckBalance(int userindex)
         << users[userindex].Accounts[choice - 1].Balance
         << " EGP" << endl;
 }
+void TransactionHistory(int userindex)
+{
+    if (users[userindex].transCount == 0) {
+        cout << "No transactions found!" << endl;
+        return;
+    }
+
+    cout << "====== Your Transactions ======\n";
+
+    for (int i = 0; i < users[userindex].transCount; i++) {
+
+        cout << "Transaction " << i + 1 << ":\n";
+
+        cout << "From: "
+            << users[userindex].Transactions[i].From << endl;
+
+        cout << "To: "
+            << users[userindex].Transactions[i].To << endl;
+
+        cout << "Amount: "
+            << users[userindex].Transactions[i].Amount
+            << " EGP" << endl;
+
+        cout << "--------------------------\n";
+    }
+}
 void saveData() {
     ofstream file("users_data.txt");
 
