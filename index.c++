@@ -126,7 +126,7 @@ int main()
 
     usercount++;
 
-    users[1].ID = 09876543211234;
+    users[1].ID = 89876543211234;
     users[1].UserName = "Norhan Atef";
     users[1].Password = "34567ggtt6";
     users[1].Email = "norhan77@gmail.com";
@@ -246,7 +246,7 @@ void UserDashboard(int userindex) {
             TransactionHistory(userindex);
             break;
         case 5:
-            if (addNewAccount(int userindex)) {
+            if (addNewAccount(userindex)) {
                 cout << " Account added to your Profile " << endl;
             }
             else {
@@ -447,7 +447,7 @@ bool addNewAccount(int userindex) {
         cout << " Enter3-digit CVVCode: " << endl;
         getline(cin, tempCVV);
         if (tempCVV.length() == 3) {
-            users[userindex].Accounts[current].CVV_Code = tempCVV;
+            users[userindex].Accounts[current].Cvv_Code = stoi(tempCVV);
             break;
 
         }
@@ -455,7 +455,9 @@ bool addNewAccount(int userindex) {
 
     }
     cout << " Enter expiration date (MM/YY) : " << endl;
-    cin >> users[userindex].Accounts[current].ExpirationDate;
+    cin >> users[userindex].Accounts[current].ExpirationDate.Day;
+    cin >> users[userindex].Accounts[current].ExpirationDate.Month;
+    cin >> users[userindex].Accounts[current].ExpirationDate.Year;
 
     cout << " Enter BankName : " << endl;
     cin >> users[userindex].Accounts[current].BankName;
@@ -537,7 +539,6 @@ void loadData() {
             file >> users[i].Accounts[j].Balance;
             file.ignore();
         }
-    }
 
-    file.close();
-}
+        file.close();
+    }
