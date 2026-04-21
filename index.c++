@@ -214,7 +214,7 @@ void UserDashboard(int userindex) {
     bool backToMinu = false;
     while (!backToMinu) {
         cout << " ****************** " << endl;
-        cout << " USER DasHBOARD " << endl;
+        cout << " USER DASHBOARD " << endl;
         cout << " ****************** " << endl;
         cout << " WELCOME " << users[userindex].UserName << "." << endl;
         cout << " 1: Transfer Money " << endl;
@@ -301,7 +301,7 @@ void SignUp() {
        getline ( cin,tempPass );
 
         if (tempPass.length() < 8) {
-            cout << " password too weak ( must be at least 8 digits " << endl;
+            cout << " password too weak ( must be at least 8 digits )  " << endl;
         }
         else {
             users[usercount].Password = tempPass;
@@ -449,10 +449,10 @@ bool addNewAccount(int userindex) {
 
     }
     cout << " Enter expiration date (MM/YY) : " << endl; 
-    cin >> users[userindex].Accounts[current].ExpirationDate;
+   getline( cin, users[userindex].Accounts[current].ExpirationDate );
      
     cout << " Enter BankName : " << endl;
-    cin >> users[userindex].Accounts[current].BankName;
+   getline( cin, users[userindex].Accounts[current].BankName );
     users[userindex].Accounts[current].Balance = double(rand() % 5000 + 1000);
     cout << " Account linked successfully " << endl;
     cout << " your current Balance : " << users[userindex].Accounts[current].Balance << " EGP " << endl;
