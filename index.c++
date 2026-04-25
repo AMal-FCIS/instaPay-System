@@ -37,7 +37,7 @@ struct Transaction
     string From;
     string To;
     double Amount;
-};
+} ;
 
 struct Transaction_Donation
 {
@@ -67,9 +67,83 @@ int usercount = 0;
 
 
 void TransactionHistory(int userindex);
-void CheckBalance(int userindex);
+void CheckBalance(int userindex );
 void Donation(int userindex);
-void TransferMoney(int userindex);
+
+        
+  
+void TransferMoney(int userindex)
+{
+    // transfer Money
+    string recevierphone;
+    double amount;
+
+
+
+    cout << "\t\t\t transaction Money \n";
+    cout << "\t\t\t===================== \n";
+
+
+    // the way of transaction 
+
+
+    int recIndex = -1;
+    int accIndex;
+   
+
+    // choose the account 
+    cout << "choose account (0-2):";
+    cin >> accIndex;
+    cout << endl;
+
+
+    // by number phone 
+
+    // check the number phone  exists or not 
+
+
+    cout << "Enter the number phone \n ";
+    cin.ignore();
+    getline(cin, recevierphone);
+
+    // search by phone 
+    for (int i = 0; i < nUsers; i++)
+    {
+        if (users[i].Phone == recevierphone)
+        {
+            recIndex = i;
+            break;
+        }
+
+    }
+
+    if (recIndex == -1)
+    {
+        cout << "Error!! phone number not found in the system \n";
+        return;
+    }
+    // check amount 
+    cout << "Enter the amount to transfer:\n ";
+    cin >> amount;
+
+    if (users[userindex].Accounts[accIndex].Balance < amount)
+    {
+        cout << "Not Enough balance !\n";
+        return;
+    }
+    // transfer 
+    users[userindex].Accounts[accIndex].Balance -= amount;
+    users[recIndex].Accounts[0].Balance += amount;
+
+    // safe transaction 
+    users[userindex].Transactions[ntransactions].From = users[userindex].Phone;
+    users[userindex].Transactions[ntransactions].To = users[recIndex].Phone;
+    users[userindex].Transactions[ntransactions].Amount = amount;
+    users[userindex].transCount++;
+
+    cout << "\t\t transfer done successfully \n ";
+}
+
 void SignUp();
 bool addNewAccount(int userindex);
 void UserDashboard(int userindex);
@@ -170,11 +244,11 @@ int main()
 
     int choice;
     while (true) {
-        cout << " instaPay system " << endl;
-        cout << " ****************** " << endl;
+        cout << "\t\t\t instaPay system " << endl;
+        cout << "\t\t\t ****************** " << endl;
         cout << " 1: Sign Up " << endl;
         cout << " 2: login " << endl;
-        cout << " Exit " << endl;
+        cout << " 3: Exit " << endl;
         cout << " ****************** " << endl;
         cout << " Enter your choice: " << endl;
         cin >> choice;
