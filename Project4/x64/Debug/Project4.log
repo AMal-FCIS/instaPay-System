@@ -1,14 +1,2 @@
 ﻿  FileName.cpp
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(262,19): warning C4305: 'argument': truncation from '__int64' to 'const _Elem'
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(262,19): warning C4305:         with
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(262,19): warning C4305:         [
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(262,19): warning C4305:             _Elem=char
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(262,19): warning C4305:         ]
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(262,19): warning C4309: 'argument': truncation of constant value
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(303,19): warning C4305: 'argument': truncation from '__int64' to 'const _Elem'
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(303,19): warning C4305:         with
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(303,19): warning C4305:         [
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(303,19): warning C4305:             _Elem=char
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(303,19): warning C4305:         ]
-C:\Users\h\source\repos\Project4\Project4\FileName.cpp(303,19): warning C4309: 'argument': truncation of constant value
-  Project4.vcxproj -> C:\Users\h\source\repos\Project4\x64\Debug\Project4.exe
+  Project4.vcxproj -> F:\new\Project10\instaPay-System\x64\Debug\Project4.exe

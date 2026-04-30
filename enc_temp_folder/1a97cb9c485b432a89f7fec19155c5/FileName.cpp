@@ -395,9 +395,11 @@ int main()
         switch (choice) {
         case 1:
             SignUp();
+            saveData();
             break;
         case 2:
             login();
+            saveData();
             break;
         case 3:
             saveData();
