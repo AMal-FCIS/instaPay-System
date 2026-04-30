@@ -68,6 +68,14 @@ int usercount = 0;
 
 void TransactionHistory(int userindex);
 void CheckBalance(int userindex);
+void SignUp();
+bool addNewAccount(int userindex);
+void UserDashboard(int userindex);
+void login();
+void saveData();
+void loadData();
+
+
 
 void Donation(int userindex) {
 
@@ -183,83 +191,116 @@ void Donation(int userindex) {
 
 void TransferMoney(int userindex)
 {
-    // transfer Money
-    string recevierphone;
-    double amount;
-
-
-
+    int accindex=0;
+    int accnumber;
     cout << "\t\t\t transaction Money \n";
     cout << "\t\t\t===================== \n";
-
-
-    // the way of transaction 
-
-
-    int recIndex = -1;
-    int accIndex=0;
-
-  // by number phone 
-
-    // check the number phone  exists or not 
-
-
-    cout << "Enter the number phone \n ";
-    cin.ignore();
-    getline(cin, recevierphone);
-
-    // search by phone 
-    for (int i = 0; i < nUsers; i++)
+    cout << " <<< The Menu of the accounts \n";
+    for (int i = 0; i<users[userindex].accCount; i++)
     {
-        if (users[i].Phone == recevierphone)
+        cout << i + 1 << '.' <<
+            users[userindex].Accounts[i].BankName << " (Balance : " <<
+            users[userindex].Accounts[i].Balance << ") \n";
+    }
+    while (true)
+    {
+    cout << " Select account : \n ";
+    cout << " From :";
+
+    cin >> accnumber;
+    accindex = accnumber - 1;
+
+    
+    
+        
+    if (accnumber < 1 || accnumber >users[userindex].accCount)
+    {
+        cout << " <<< Invalid Chioce \n ";
+        cout << "Enter the account again \n ";
+        continue;
+    }
+    break;
+    
+   };
+     // Enter the phone number 
+string phone;
+
+while (true)
+{
+
+cout << "Enter the number phone \n";
+cout << "TO :";
+cin.ignore();
+getline(cin , phone);
+
+if (phone.length() != 11)
+{
+    cout << "Invaild phone number \n ";
+    continue;
+}
+break;
+};
+// check phone number 
+int recindex = -1;
+for (int i = 0; i < nUsers; i++)
+{
+    if (users[i].Phone == phone)
+
+    {
+        recindex = i;
+        break;
+    }
+
+
+        else
         {
-            recIndex = i;
-            break;
+            cout << " <<< The Phone Number DoesNot EIXIT !!! >>>\n ";
+            return;
         }
+}
+// Display the reciever name to ensure 
+cout << " The Reciever name: " << users[recindex].UserName << endl;
+cin.ignore();
+// Enter the amount 
+double amount;
+cout << "  Amount : ";
+cin >> amount;
+cout << amount << endl;
+cout << users[userindex].Accounts[accindex].Balance;
 
-    }
 
-    if (recIndex == -1)
-    {
-        cout << "Error!! phone number not found in the system \n";
-        return;
-    }
-    // check amount 
-    cout << "Enter the amount to transfer:\n ";
-    cin >> amount;
+// check the Balance 
+if ((double) amount >(double)users[userindex].Accounts[accindex].Balance)
 
-    if (users[userindex].Accounts[accIndex].Balance < amount)
-    {
-        cout << "Not Enough balance !\n";
-        return;
-    }
-    // transfer 
-    users[userindex].Accounts[accIndex].Balance -= amount;
-    users[recIndex].Accounts[0].Balance += amount;
-
-    // safe transaction 
-    users[userindex].Transactions[ntransactions].From = users[userindex].Phone;
-    users[userindex].Transactions[ntransactions].To = users[recIndex].Phone;
-    users[userindex].Transactions[ntransactions].Amount = amount;
-    users[userindex].transCount++;
-
-    cout << "\t\t transfer done successfully \n ";
+{
+    
+    cout << " << The BALANCE NOT Enough \n ";
+    
+ 
 }
 
-void SignUp();
-bool addNewAccount(int userindex);
-void UserDashboard(int userindex);
-void login();
-void saveData();
-void loadData();
 
+// transactions 
+users[userindex].Accounts[accindex].Balance -= amount;
+users[recindex].Accounts[0].Balance += amount;// 0 is the first account of thr reciever 
+users[userindex].transCount ++;
+
+// Record the transaction process 
+users[recindex].Transactions[users[recindex].transCount].From = users[userindex].UserName;
+users[recindex].Transactions[users[recindex].transCount].To = users[recindex].UserName;
+users[recindex].Transactions[users[recindex].transCount].Amount = amount;
+users[recindex].transCount++;
+
+
+}
 
 
 
 int main()
 {
     loadData();
-    users[0].ID = 12345678901234;
+    
+    users[0].ID =12345678901234;
     users[0].UserName = "Ahmed Mohamed";
     users[0].Password = "52444424vmv";
     users[0].Email = "ahmed@gmail.com";
@@ -368,11 +409,12 @@ int main()
             cout << " Error. please Enter 1 or 2 or 3 " << endl;
 
         }
+        
 
     }
 
 
-
+    
 
 
 
