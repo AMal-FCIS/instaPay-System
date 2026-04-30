@@ -636,6 +636,7 @@ bool addNewAccount(int userindex) {
     int current = users[userindex].accCount;
     string tempCard, tempCVV;
     cout << " ---[link your Bank Account]--- " << endl;
+    cin.ignore();
     while (true) {
         cout << " Enter 16-digit card number: " << endl;
 
