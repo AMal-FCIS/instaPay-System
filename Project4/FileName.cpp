@@ -10,13 +10,6 @@ using namespace std;
 #define OrganizationNames 5
 #define BankNames 5
 
-struct  Date
-{
-    int Day;
-    int Month;
-    int Year;
-};
-
 struct Address
 {
     string Country;
@@ -29,7 +22,7 @@ struct Account
     string CardNo;
     string HolderName;
     int Cvv_Code;
-    Date ExpirationDate;
+    string ExpirationDate;
     string BankName;
     double Balance;
 };
@@ -307,7 +300,6 @@ users[recindex].Transactions[users[recindex].transCount].To = users[recindex].Us
 users[recindex].Transactions[users[recindex].transCount].Amount = amount;
 users[recindex].transCount++;
 
-
 }
 
 
@@ -325,13 +317,11 @@ int main()
     users[0].Address.City = "Cairo";
     users[0].Phone = "01120002000";
     users[0].Accounts[0].Balance = 345444.444;
-    users[0].Accounts[0].CardNo = "1234-5678-1000-3210";
+    users[0].Accounts[0].CardNo = "1234567810003210";
     users[0].Accounts[0].BankName = "NBE";
     users[0].Accounts[0].Cvv_Code = 223;
     users[0].Accounts[0].HolderName = "Ahmed Mohamed";
-    users[0].Accounts[0].ExpirationDate.Day = 2;
-    users[0].Accounts[0].ExpirationDate.Month = 11;
-    users[0].Accounts[0].ExpirationDate.Year = 2028;
+    users[0].Accounts[0].ExpirationDate = 23 / 2 / 2027;
     users[0].accCount = 1;
     users[0].Transactions[0].From = "Ahmed Mohamed";
     users[0].Transactions[0].To = "Yasmen Fayez";
@@ -366,13 +356,11 @@ int main()
     users[1].Address.City = "Giza";
     users[1].Phone = "01129008800";
     users[1].Accounts[0].Balance = 500000.900;
-    users[1].Accounts[0].CardNo = "1357-2468-1110-9876";
+    users[1].Accounts[0].CardNo = "1357246811109876";
     users[1].Accounts[0].BankName = "CIB";
     users[1].Accounts[0].Cvv_Code = 200;
     users[1].Accounts[0].HolderName = "Norhan Atef";
-    users[1].Accounts[0].ExpirationDate.Day = 4;
-    users[1].Accounts[0].ExpirationDate.Month = 11;
-    users[1].Accounts[0].ExpirationDate.Year = 2030;
+    users[1].Accounts[0].ExpirationDate = 25 / 3 / 2030;
     users[1].accCount = 1;
     users[1].Transactions[0].From = "Norhan Atef";
     users[1].Transactions[0].To = "Yosef Ramy";
@@ -694,11 +682,7 @@ bool addNewAccount(int userindex) {
 
 
     cout << " Enter expiration date (DAY/MONTH/YEAR) " << endl;
-    //24/5/2026   //24 5 2026
-    cin >> users[userindex].Accounts[current].ExpirationDate.Day;
-    cin >> users[userindex].Accounts[current].ExpirationDate.Month;
-    cin >> users[userindex].Accounts[current].ExpirationDate.Year;
-
+    cin >> users[userindex].Accounts[current].ExpirationDate;
     cout << " Enter BankName : " << endl;
     cin.ignore();
     getline(cin, users[userindex].Accounts[current].BankName);
