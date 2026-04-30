@@ -7,6 +7,8 @@ using namespace std;
 #define ntransactions 10
 #define nUsers 10
 #define nOrganisations 5
+#define OrganizationNames 5
+#define BankNames 5
 
 struct  Date
 {
@@ -64,7 +66,21 @@ struct User
 }users[nUsers];
 int usercount = 0;
 
+string banks[BankNames] = {
+    "National Bank of Egypt",
+    "Banque Misr",
+    "CIB",
+    "QNB Alahli",
+    "Arab African International Bank"
+};
 
+string organizations[OrganizationNames] = {
+    "Magdi Yacoub Foundation",
+    "Egyptian Food Bank",
+    "57357 Hospital",
+    "Misr El Kheir Foundation",
+    "Resala Charity Organization"
+};
 
 void TransactionHistory(int userindex);
 void CheckBalance(int userindex);
@@ -298,6 +314,7 @@ users[recindex].transCount++;
 
 int main()
 {
+
     loadData();
     
     users[0].ID =12345678901234;
