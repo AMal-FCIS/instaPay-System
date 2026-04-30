@@ -83,220 +83,8 @@ void UserDashboard(int userindex);
 void login();
 void saveData();
 void loadData();
-
-
-
-void Donation(int userindex) {
-
-    if (users[userindex].transCount >= ntransactions) {
-        cout << "\n[!] Transaction limit reached.\n";
-        return;
-    }
-    
-
-    cout << "\n--- Donation Menu ---\n";
-
-    for (int i = 0; i < 4; i++) {
-        cout << i + 1 << ". " << organizations[i] << endl;
-    }
-
-    int orgChoice;
-    cout << "Select Organization (1-4): ";
-    cin >> orgChoice;
-
-    if (orgChoice < 1 || orgChoice > 4) {
-        cout << "[!] Invalid choice.\n";
-        return;
-    }
-
-    cout << "\nSelect Account:\n";
-
-    for (int i = 0; i < users[userindex].accCount; i++) {
-        cout << i + 1 << ". "
-            << users[userindex].Accounts[i].BankName
-            << " (Balance: "
-            << users[userindex].Accounts[i].Balance << ")\n";
-    }
-
-    int accIndex;
-    cin >> accIndex;
-
-    if (accIndex < 1 || accIndex > users[userindex].accCount) {
-        cout << "[!] Invalid account selection.\n";
-        return;
-    }
-
-    accIndex--;
-
-    double amount;
-    cout << "Enter Amount: ";
-    cin >> amount;
-
-    if (amount <= 0) {
-        cout << "[!] Invalid amount.\n";
-        return;
-    }
-
-    if (users[userindex].Accounts[accIndex].Balance < amount) {
-        cout << "[!] Insufficient balance.\n";
-        return;
-    }
-
-    char confirm;
-    cout << "Confirm donation? (y/n): ";
-    cin >> confirm;
-
-    if (confirm != 'y' && confirm != 'Y') {
-        cout << "[!] Cancelled.\n";
-        return;
-    }
-
-    users[userindex].Accounts[accIndex].Balance -= amount;
-
-    int tIdx = users[userindex].transCount;
-    users[userindex].Transactions[tIdx].From = users[userindex].UserName;
-    users[userindex].Transactions[tIdx].To =
-        "Donation: " + organizations[orgChoice - 1];
-    users[userindex].Transactions[tIdx].Amount = amount;
-
-    users[userindex].transCount++;
-
-    bool found = false;
-
-    for (int i = 0; i < users[userindex].orgCount; i++) {
-        if (users[userindex].Donation_Organisation[i].Name_organisation
-            == organizations[orgChoice - 1]) {
-
-            users[userindex].Donation_Organisation[i].TotalDonation += amount;
-            found = true;
-            break;
-        }
-    }
-
-    if (!found && users[userindex].orgCount < nOrganisations) {
-
-        int oIdx = users[userindex].orgCount;
-
-        users[userindex].Donation_Organisation[oIdx].Name_organisation =
-            organizations[orgChoice - 1];
-
-        users[userindex].Donation_Organisation[oIdx].TotalDonation = amount;
-
-        users[userindex].Donation_Organisation[oIdx].Type_Of_Donation =
-            "Charity";
-
-        users[userindex].orgCount++;
-    }
-
-    cout << "\n[Done] Donation successful!\n";
-}
-
-void TransferMoney(int userindex)
-{
-    int accindex=0;
-    int accnumber;
-    cout << "\t\t\t transaction Money \n";
-    cout << "\t\t\t===================== \n";
-    cout << " <<< The Menu of the accounts \n";
-    for (int i = 0; i<users[userindex].accCount; i++)
-    {
-        cout << i + 1 << '.' <<
-            users[userindex].Accounts[i].BankName << " (Balance : " <<
-            users[userindex].Accounts[i].Balance << ") \n";
-    }
-    while (true)
-    {
-    cout << " Select account : \n ";
-    cout << " From :";
-
-    cin >> accnumber;
-    accindex = accnumber - 1;
-
-    
-    
-        
-    if (accnumber < 1 || accnumber >users[userindex].accCount)
-    {
-        cout << " <<< Invalid Chioce \n ";
-        cout << "Enter the account again \n ";
-        continue;
-    }
-    break;
-    
-   };
-     // Enter the phone number 
-string phone;
-
-while (true)
-{
-
-cout << "Enter the number phone \n";
-cout << "TO :";
-cin.ignore();
-getline(cin , phone);
-
-if (phone.length() != 11)
-{
-    cout << "Invaild phone number \n ";
-    continue;
-}
-break;
-};
-// check phone number 
-int recindex = -1;
-for (int i = 0; i < nUsers; i++)
-{
-    if (users[i].Phone == phone)
-
-    {
-        recindex = i;
-        break;
-    }
-
-
-        else
-        {
-            cout << " <<< The Phone Number DoesNot EIXIT !!! >>>\n ";
-            return;
-        }
-}
-// Display the reciever name to ensure 
-cout << " The Reciever name: " << users[recindex].UserName << endl;
-cin.ignore();
-// Enter the amount 
-double amount;
-cout << "  Amount : ";
-cin >> amount;
-cout << amount << endl;
-cout << users[userindex].Accounts[accindex].Balance;
-
-
-// check the Balance 
-if ((double) amount >(double)users[userindex].Accounts[accindex].Balance)
-
-{
-    
-    cout << " << The BALANCE NOT Enough \n ";
-    
- 
-}
-
-
-// transactions 
-users[userindex].Accounts[accindex].Balance -= amount;
-users[recindex].Accounts[0].Balance += amount;// 0 is the first account of thr reciever 
-users[userindex].transCount ++;
-
-// Record the transaction process 
-users[recindex].Transactions[users[recindex].transCount].From = users[userindex].UserName;
-users[recindex].Transactions[users[recindex].transCount].To = users[recindex].UserName;
-users[recindex].Transactions[users[recindex].transCount].Amount = amount;
-users[recindex].transCount++;
-
-}
-
-
-
+void Donation(int userindex);
+void TransferMoney(int userindex);
 int main()
 {
 
@@ -423,7 +211,7 @@ int main()
 
 
 
-    return 0;
+    return 0 ;
 }
 
 
@@ -794,4 +582,209 @@ void loadData() {
     }
 
     file.close();
+}
+void Donation(int userindex) {
+
+    if (users[userindex].transCount >= ntransactions) {
+        cout << "\n[!] Transaction limit reached.\n";
+        return;
+    }
+
+
+    cout << "\n--- Donation Menu ---\n";
+
+    for (int i = 0; i < 4; i++) {
+        cout << i + 1 << ". " << organizations[i] << endl;
+    }
+
+    int orgChoice;
+    cout << "Select Organization (1-4): ";
+    cin >> orgChoice;
+
+    if (orgChoice < 1 || orgChoice > 4) {
+        cout << "[!] Invalid choice.\n";
+        return;
+    }
+
+    cout << " your Accounts: ";
+
+    for (int i = 0; i < users[userindex].accCount; i++) {
+        cout << i + 1 << ". "
+            << users[userindex].Accounts[i].BankName
+            << " (Balance: "
+            << users[userindex].Accounts[i].Balance << ")\n";
+    }
+
+    int accIndex;
+    cin >> accIndex;
+
+    if (accIndex < 1 || accIndex > users[userindex].accCount) {
+        cout << "[!] Invalid account selection.\n";
+        return;
+    }
+
+    accIndex--;
+
+    double amount;
+    cout << "Enter Amount: ";
+    cin >> amount;
+
+    if (amount <= 0) {
+        cout << "[!] Invalid amount.\n";
+        return;
+    }
+
+    if (users[userindex].Accounts[accIndex].Balance < amount) {
+        cout << "[!] Insufficient balance.\n";
+        return;
+    }
+
+    char confirm;
+    cout << "Confirm donation? (y/n): ";
+    cin >> confirm;
+
+    if (confirm != 'y' && confirm != 'Y') {
+        cout << "[!] Cancelled.\n";
+        return;
+    }
+
+    users[userindex].Accounts[accIndex].Balance -= amount;
+
+    int tIdx = users[userindex].transCount;
+    users[userindex].Transactions[tIdx].From = users[userindex].UserName;
+    users[userindex].Transactions[tIdx].To =
+        "Donation: " + organizations[orgChoice - 1];
+    users[userindex].Transactions[tIdx].Amount = amount;
+
+    users[userindex].transCount++;
+
+    bool found = false;
+
+    for (int i = 0; i < users[userindex].orgCount; i++) {
+        if (users[userindex].Donation_Organisation[i].Name_organisation
+            == organizations[orgChoice - 1]) {
+
+            users[userindex].Donation_Organisation[i].TotalDonation += amount;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found && users[userindex].orgCount < nOrganisations) {
+
+        int oIdx = users[userindex].orgCount;
+
+        users[userindex].Donation_Organisation[oIdx].Name_organisation =
+            organizations[orgChoice - 1];
+
+        users[userindex].Donation_Organisation[oIdx].TotalDonation = amount;
+
+        users[userindex].Donation_Organisation[oIdx].Type_Of_Donation =
+            "Charity";
+
+        users[userindex].orgCount++;
+    }
+
+    cout << "\n[Done] Donation successful!\n";
+}
+void TransferMoney(int userindex)
+{
+    int accindex = 0;
+    int accnumber;
+    cout << "\t\t\t transaction Money \n";
+    cout << "\t\t\t===================== \n";
+    cout << " <<< The Menu of the accounts \n";
+    for (int i = 0; i < users[userindex].accCount; i++)
+    {
+        cout << i + 1 << '.' <<
+            users[userindex].Accounts[i].BankName << " (Balance : " <<
+            users[userindex].Accounts[i].Balance << ") \n";
+    }
+    while (true)
+    {
+        cout << " Select account : \n ";
+        cout << " From :";
+
+        cin >> accnumber;
+        accindex = accnumber - 1;
+
+
+
+
+        if (accnumber < 1 || accnumber >users[userindex].accCount)
+        {
+            cout << " <<< Invalid Chioce \n ";
+            cout << "Enter the account again \n ";
+            continue;
+        }
+        break;
+    }
+    // Enter the phone number 
+    string phone;
+
+    while (true)
+    {
+        cout << "Enter the number phone \n";
+
+        cout << "TO :";
+        cin.ignore();
+        getline(cin, phone);
+
+        if (phone.length() != 11)
+        {
+            cout << "Invaild phone number \n ";
+            continue;
+        }
+        break;
+    };
+    // check phone number 
+    int recindex = -1;
+    for (int i = 0; i < nUsers; i++)
+    {
+        if (users[i].Phone == phone)
+
+        {
+            recindex = i;
+            break;
+        }
+
+
+        else
+        {
+            cout << " <<< The Phone Number DoesNot EIXIT !!! >>>\n ";
+            return;
+        }
+    }
+
+
+    // Display the reciever name to ensure
+    cout << "The Reciever Name " << users[recindex].UserName;
+    cin.ignore();
+    double amount;
+    cout << "Enter the amount to transfer:\n ";
+    cin >> amount;
+
+    if (users[userindex].Accounts[accindex].Balance < amount)
+    {
+        cout << "Not Enough balance !\n";
+        return;
+    }
+    // transfer 
+    users[userindex].Accounts[accindex].Balance -= amount;
+    users[recindex].Accounts[0].Balance += amount;
+    if (users[userindex].transCount >= ntransactions)
+    {
+        cout << "Transaction limit reached \n";
+        return;
+    }
+
+    // safe transaction 
+    {
+        users[userindex].Transactions[users[userindex].transCount].From = users[userindex].UserName;
+        users[userindex].Transactions[users[userindex].transCount].To = users[recindex].UserName;
+        users[userindex].Transactions[users[userindex].transCount].Amount = amount;
+        users[userindex].transCount++;
+
+        cout << "\t\t transfer done successfully \n ";
+    }
 }
