@@ -465,15 +465,35 @@ bool addNewAccount(int userindex) {
 
     cout << " Enter expiration date (DAY/MONTH/YEAR) " << endl;
     cin >> users[userindex].Accounts[current].ExpirationDate;
-    cout << " Enter BankName : " << endl;
-    cin.ignore();
-    getline(cin, users[userindex].Accounts[current].BankName);
+
+
+
+    cout << " -----BankName Menu-----: " << endl;
+    for (int i = 0; i < 5; i++) {
+        cout << i + 1 << " " << banks[i] << endl;
+    }
+    int bankChoice;
+    cout << " select baank ( 1-5) :" << endl;
+    cin >> bankChoice;
+
+    if (bankChoice < 1 || bankChoice > 5) {
+        cout << "<<<<<<<<<<<!!!!!!! INVALIDE >>>>>>>>>>>" << endl;
+        return false;
+    }
+    
     users[userindex].Accounts[current].Balance = double(rand() % 5000 + 1000);
+    users[userindex].Accounts[current].BankName = banks[bankChoice - 1];
     cout << " <<<<ACCOUNT LINKED SUCCESSFULY>>>> " << endl;
+
+
+
+
     cout << " your current Balance : " << users[userindex].Accounts[current].Balance << " EGP " << endl;
     users[userindex].accCount++;
     return true;
 }
+
+
 void CheckBalance(int userindex)
 {
     if (users[userindex].accCount == 0) {
