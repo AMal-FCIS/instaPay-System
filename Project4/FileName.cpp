@@ -183,6 +183,7 @@ int main()
         switch (choice) {
         case 1:
             SignUp();
+            saveData();
             break;
         case 2:
             login();
@@ -527,6 +528,10 @@ void TransactionHistory(int userindex)
 }
 void saveData() {
     ofstream file("users_data.txt");
+    if (!file) {
+        cout << "Error opening file for saving!" << endl;
+        return;
+    }
 
     file << usercount << endl;
 
@@ -536,9 +541,12 @@ void saveData() {
         file << users[i].Password << endl;
         file << users[i].Email << endl;
         file << users[i].Phone << endl;
+        // حفظ العنوان (Address)
+        file << users[i].Address.Country << endl;
+        file << users[i].Address.City << endl;
 
+        // حفظ الحسابات البنكية
         file << users[i].accCount << endl;
-
         for (int j = 0; j < users[i].accCount; j++) {
             file << users[i].Accounts[j].CardNo << endl;
             file << users[i].Accounts[j].HolderName << endl;
@@ -547,17 +555,26 @@ void saveData() {
             file << users[i].Accounts[j].BankName << endl;
             file << users[i].Accounts[j].Balance << endl;
         }
+
+        // حفظ التحويلات (Transactions)
+        file << users[i].transCount << endl;
+        for (int j = 0; j < users[i].transCount; j++) {
+            file << users[i].Transactions[j].From << endl;
+            file << users[i].Transactions[j].To << endl;
+            file << users[i].Transactions[j].Amount << endl;
+        }
     }
 
     file.close();
+    cout << "Data saved successfully!" << endl;
 }
+
 void loadData() {
     ifstream file("users_data.txt");
-
     if (!file) return;
 
     file >> usercount;
-    file.ignore();
+    file.ignore(); // مهم جداً بعد قراءة الرقم
 
     for (int i = 0; i < usercount; i++) {
         getline(file, users[i].ID);
@@ -565,10 +582,12 @@ void loadData() {
         getline(file, users[i].Password);
         getline(file, users[i].Email);
         getline(file, users[i].Phone);
+        getline(file, users[i].Address.Country);
+        getline(file, users[i].Address.City);
 
+        // تحميل الحسابات
         file >> users[i].accCount;
         file.ignore();
-
         for (int j = 0; j < users[i].accCount; j++) {
             getline(file, users[i].Accounts[j].CardNo);
             getline(file, users[i].Accounts[j].HolderName);
@@ -577,6 +596,16 @@ void loadData() {
             getline(file, users[i].Accounts[j].ExpirationDate);
             getline(file, users[i].Accounts[j].BankName);
             file >> users[i].Accounts[j].Balance;
+            file.ignore();
+        }
+
+        // تحميل التحويلات
+        if (!(file >> users[i].transCount)) users[i].transCount = 0;
+        file.ignore();
+        for (int j = 0; j < users[i].transCount; j++) {
+            getline(file, users[i].Transactions[j].From);
+            getline(file, users[i].Transactions[j].To);
+            file >> users[i].Transactions[j].Amount;
             file.ignore();
         }
     }
@@ -739,22 +768,22 @@ void TransferMoney(int userindex)
     };
     // check phone number 
     int recindex = -1;
-    for (int i = 0; i < nUsers; i++)
+
+    for (int i = 0; i < usercount; i++)  // خليها usercount مش nUsers
     {
         if (users[i].Phone == phone)
-
         {
             recindex = i;
             break;
         }
-
-
-        else
-        {
-            cout << " <<< The Phone Number DoesNot EIXIT !!! >>>\n ";
-            return;
-        }
     }
+
+    if (recindex == -1)
+    {
+        cout << " <<< The Phone Number Does Not EXIST !!! >>>\n ";
+        return;
+    }
+   
 
 
     // Display the reciever name to ensure
